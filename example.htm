@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>multiSuggest Example</title>
+		<script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+		<script language="JavaScript" type="text/javascript" src="jquery.multiSuggest.js"></script>
+		<style>
+			.example-multi-suggest-select {
+				position: absolute;
+				background: #FFFFFF;
+				/* @embed */
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN48eLFfwAJLAO4vsJrRQAAAABJRU5ErkJggg==);
+				background-position: 8em top;
+				background-repeat: repeat-y;
+				padding: 0.5em 0;
+				width: 20em;
+				font-size: 1em;
+				z-index: 101;
+				-webkit-border-bottom-left-radius: 0.25em;
+				-webkit-border-bottom-right-radius: 0.25em;
+				-moz-border-bottom-left-radius: 0.25em;
+				-moz-border-bottom-right-radius: 0.25em;
+				-o-border-bottom-left-radius: 0.25em;
+				-o-border-bottom-right-radius: 0.25em;
+				border-bottom-left-radius: 0.25em;
+				border-bottom-right-radius: 0.25em;
+				background-color: rgba(255,255,255,0.95);
+				-webkit-box-shadow: 0 .15em .5em 0 rgba(0, 0, 0, 0.2);
+				-moz-box-shadow: 0 .15em .5em 0 rgba(0, 0, 0, 0.2);
+				box-shadow: 0 .15em .5em 0 rgba(0, 0, 0, 0.2);
+			}
+			.example-multi-suggest-label {
+				float: left;
+				width: 6.5em;
+				padding: 0.33em 0.75em;
+				text-align: right;
+				color: rgb(78, 78, 78);
+			}
+
+			.example-multi-suggest-wrap {
+				float:left;
+			}
+
+			.example-multi-suggest-dummy-item {
+				padding: 0.33em 0.75em;
+				width: 10.5em;
+			}
+
+			.example-multi-suggest-item {
+				padding: 0.33em 0.75em;
+				width: 10.5em;
+				/* CSS Elipsis */
+				white-space: nowrap;
+				overflow: hidden;
+				-o-text-overflow: ellipsis;
+				text-overflow: ellipsis;
+			}
+
+			.example-multi-suggest-item.new {
+				color: #BA0000;
+			}
+			.example-multi-suggest-item.existing {
+				color: rgb(68, 125, 214);
+			}
+
+			.example-multi-suggest-item.selected {
+				background-color: rgb(68, 125, 214);
+				color: #FFFFFF;
+			}
+			.example-multi-suggest-item > a {
+				text-decoration: none;
+			}
+			.query-class {
+				color: red;
+			}
+			.example-class {
+				color: blue;
+			}
+
+		</style>
+	</head>
+	<body>
+		<input id="exampleInput" />
+
+		<script>
+		$( document ).ready(function(){
+			// Input element.
+			var $input = $( '#exampleInput' );
+			// Multi Suggest configuration.
+			var options = {
+				// Pass inspector doc to correctly append elements to iframe
+				'parent': $input.parent(),
+				'prefix': 'example-multi',
+			    // Build suggestion groups in order.
+			    'suggestions': function( params ) {
+					// Generic params object.
+					var example = params.example,
+						example2 = params.example2,
+						query = params.query;
+						groups = {
+							// Set 1
+							query: {
+								label: 'Query',
+								items: [query],
+								itemClass: 'query-class'
+							},
+							// Set 2
+							exampleGroup: {
+								label: 'Example 1',
+								items: example,
+								itemClass: 'example-class'
+							},
+							// Set 3
+							exampleGroup2: {
+								label: 'Example 2',
+								items: example2,
+								itemClass: 'example-class'
+							}
+						};
+					// Return the groups object.
+					return groups;
+				},				
+				// Called on succesfull input.
+				'input': function( callback ) {
+					var query = $input.val();
+					// Example params object.
+					var params = {
+							query: query,
+							example: ['example item 1', 'example item 2', 'example item 3', 'example item 4'],
+							example2: ['example item 5', 'example item 6']
+					};		
+					// Build with params.
+					callback( params );
+				}
+			};
+			// Setup
+			$input.multiSuggest( options );
+		});
+		</script>
+	</body>
+</html>
